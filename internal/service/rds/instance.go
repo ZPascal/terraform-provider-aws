@@ -2476,6 +2476,8 @@ func dbInstancePopulateModify(input *rds.ModifyDBInstanceInput, d *schema.Resour
 		needsModify = true
 		input.AllocatedStorage = aws.Int32(int32(d.Get(names.AttrAllocatedStorage).(int)))
 
+		// TODO Validate the storage size and adapt the default IOPS
+
 		// Send Iops if it has changed or not (StorageType == "gp3" and AllocatedStorage < threshold).
 		if d.HasChange(names.AttrIOPS) || !isStorageTypeGP3BelowAllocatedStorageThreshold(d) {
 			input.Iops = aws.Int32(int32(d.Get(names.AttrIOPS).(int)))
